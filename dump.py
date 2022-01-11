@@ -66,7 +66,8 @@ while True:
 
     time.sleep(0.5)
 
-    if len(songs) < 50 or total_done > 200:
+    # if len(songs) < 50 or total_done > 200:
+    if len(songs) < 50:
         break
 
     with open(result_path, 'a') as f:
