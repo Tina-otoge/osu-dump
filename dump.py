@@ -22,13 +22,14 @@ while True:
         f'{base}/beatmapsets/search/',
         headers={'Authorization': f'Bearer {token}'},
         params={
-            'nsfw': True,
+            'nsfw': 'true',
             'sort': 'title_asc',
             's': 'any',
             'cursor[_id]': cursor.get('_id'),
             'cursor[title.raw]': cursor.get('title.raw'),
         },
     )
+    print(resp.request, resp.request.url)
     data = resp.json()
     with open('last_raw_response.json', 'w') as f:
         json.dump(data, f, indent=2)
@@ -37,14 +38,14 @@ while True:
     sets = data['beatmapsets']
     total = data['total']
 
-    last_id = sets[-1]['id']
-    last_name = sets[-1]['title']
     songs = [
         {
             'id': x['id'],
             'title': x['title'],
             'artist': x['artist'],
             'status': x['status'],
+            'mapper_id': x['user_id'],
+
         } for x in sets
     ]
     total_done += len(songs)
@@ -67,11 +68,13 @@ while True:
     time.sleep(0.5)
 
     # if len(songs) < 50 or total_done > 200:
-    if len(songs) < 50:
+    if len(songs) == 0:
         break
 
     with open(result_path, 'a') as f:
         f.write(',\n')
+
+    print('-' * 10)
 
 with open(result_path, 'a') as f:
     f.write('\n]')
