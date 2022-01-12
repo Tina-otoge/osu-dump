@@ -49,7 +49,7 @@ computed_total = len(data_by_computed_name)
 
 print('Total entries', data_total)
 print('Without compilations', without_groups_total)
-print('Unique entries', computed_total, f'({computed_total / data_total * 100}%)')
+print('Unique entries', computed_total, f'({computed_total / data_total * 100}%)', flush=True)
 
 computed_by_letter = {}
 for x in data_by_computed_name:
@@ -65,11 +65,11 @@ counted = 0
 for letter in sorted(computed_by_letter.keys()):
     letter_data = computed_by_letter[letter]
     letter_data_total = len(letter_data)
-    print('Handling entries starting with', f'"{letter}"')
+    print('Handling entries starting with', f'"{letter}"', flush=True)
     for i, entry in enumerate(letter_data):
         if i % 100 == 0:
             print(f'{i} / {letter_data_total} ({i / letter_data_total * 100}%)')
-            print('Current count', f'{count} / {counted}')
+            print('Current count', f'{count} / {counted}', flush=True)
         counted += 1
         count += 2
         results = process.extract(entry, letter_data, limit=10)
